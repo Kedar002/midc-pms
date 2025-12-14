@@ -5,6 +5,7 @@ import '../bloc/spreadsheet_bloc.dart';
 import '../bloc/spreadsheet_event.dart';
 import '../bloc/spreadsheet_state.dart';
 import '../widgets/virtualized_grid/virtualized_grid.dart';
+import '../widgets/toolbar/formula_bar.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_colors.dart';
 
@@ -100,12 +101,41 @@ class SpreadsheetView extends StatelessWidget {
           }
 
           if (state is SpreadsheetLoaded) {
-            return VirtualizedGrid(
-              gridData: state.gridData,
-              selection: state.selection,
-              editing: state.editing,
-              columnWidths: state.columnWidths,
-              rowHeights: state.rowHeights,
+            return Column(
+              children: [
+                // Formula bar
+                FormulaBar(
+                  selectedRow: state.selection?.row,
+                  selectedCol: state.selection?.col,
+                  cellValue: state.selection != null
+                      ? state.gridData.getCell(
+                          state.selection!.row,
+                          state.selection!.col,
+                        ).value
+                      : null,
+                  onValueChanged: (value) {
+                    if (state.selection != null) {
+                      context.read<SpreadsheetBloc>().add(
+                            UpdateCellValue(
+                              state.selection!.row,
+                              state.selection!.col,
+                              value,
+                            ),
+                          );
+                    }
+                  },
+                ),
+                // Grid
+                Expanded(
+                  child: VirtualizedGrid(
+                    gridData: state.gridData,
+                    selection: state.selection,
+                    editing: state.editing,
+                    columnWidths: state.columnWidths,
+                    rowHeights: state.rowHeights,
+                  ),
+                ),
+              ],
             );
           }
 

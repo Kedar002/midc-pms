@@ -10,7 +10,12 @@ class AppStrings {
   static const String sheetView = 'Sheet';
   static const String applicationView = 'Application';
 
-  // CSV
+  // CSV - Multi-sheet support
+  static const String baseSpreadsheetId = '1cjpq8BnMrTmcKMlebppoKJGotT2siaNQsJseAwztI4Y';
+  static const String csvBaseUrl =
+      'https://docs.google.com/spreadsheets/d/1cjpq8BnMrTmcKMlebppoKJGotT2siaNQsJseAwztI4Y/export?format=csv';
+
+  // Legacy single sheet URL (kept for backward compatibility)
   static const String csvUrl =
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0CP_CtEVr6yK4EezIrKdbHxlxvvx6vKP25vS5T5dpUazZek0cj4oIe1w83xubWLJvTHLNvXi3kqBz/pub?output=csv';
 
